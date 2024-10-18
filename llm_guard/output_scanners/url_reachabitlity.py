@@ -5,6 +5,7 @@ import requests
 from llm_guard.util import extract_urls, get_logger
 
 from .base import Scanner
+from security import safe_requests
 
 LOGGER = get_logger()
 
@@ -35,7 +36,7 @@ class URLReachability(Scanner):
         Check if the URL is reachable.
         """
         try:
-            response = requests.get(url, timeout=self._timeout)
+            response = safe_requests.get(url, timeout=self._timeout)
             return response.status_code in self._success_status_codes
         except requests.RequestException:
             return False
